@@ -169,7 +169,7 @@
         const checkout = datasSelecionadas[1];
         const hospedes = parseInt(document.getElementById('hospedes').value);
 
-        if (isNaN(hospedes) || hospedes < 1 || hospedes > 4) {
+        if (isNaN(hospedes) || hospedes < 1 || hospedes > 15) {
           mostrarResposta('Selecione um número de hóspedes válido.');
           return;
         }
@@ -197,15 +197,15 @@
         const checkinStr = formatarData(checkin);
         const checkoutStr = formatarData(checkout);
 
-        const mensagem = `Olá! Gostaria de reservar o Chalé Castelo Forte! Nesses dias, para essa quantidade e pessoas, ele estará disponível para reserva?\n\nData: ${checkinStr} a ${checkoutStr}.\n\nHóspedes: ${hospedes} pessoa(s).`;
+        const mensagem = `Olá! Gostaria de reservar uma data! \n\nCheck-in: ${checkinStr} \n Check-out: ${checkoutStr}.\n\nHóspedes: ${hospedes} pessoa(s).`;
         const encodedMensagem = encodeURIComponent(mensagem);
         const linkWhatsApp = `https://wa.me/5516988532041?text=${encodedMensagem}`;
 
-        const linkDuvidas = `https://wa.me/5516988532041?text=${encodeURIComponent('Olá! Gostaria de tirar algumas dúvidas sobre a reserva do Chalé Castelo Forte.')}`;
+        const linkDuvidas = `https://wa.me/5516988532041?text=${encodeURIComponent('Olá! Gostaria de tirar algumas dúvidas sobre as reservas da Pousada MAKS.')}`;
 
         mostrarResposta(`
         
-        <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank">Finalizar pagamento pelo WhatsApp</a>
+        <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank">Reservar pelo WhatsApp</a>
         
       `);
       });
