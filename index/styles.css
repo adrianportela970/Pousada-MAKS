@@ -699,7 +699,7 @@
 
     .container.expandido {
         transition: all 0.5s ease;
-        height: 70%;
+        height: 75%;
         /* ou qualquer valor desejado */
         padding-bottom: 2rem;
     }
