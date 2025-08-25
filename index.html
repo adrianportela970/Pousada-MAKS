@@ -64,9 +64,29 @@
       }
 
 
+    .btn-whatsapp {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 16px;
+        background-color: #25D366;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+        margin-top: 2rem;
+    }
 
+    .btn-whatsapp:hover {
+        background-color: #000000;
+    }
 
+@media (min-width:735px) {
 
+      .menu-icon {
+        display: none;
+    }
+
+}
 
 
     }
@@ -179,14 +199,14 @@
 
         const mensagem = `Olá! Gostaria de reservar o Chalé Castelo Forte! Nesses dias, para essa quantidade e pessoas, ele estará disponível para reserva?\n\nData: ${checkinStr} a ${checkoutStr}.\n\nHóspedes: ${hospedes} pessoa(s).`;
         const encodedMensagem = encodeURIComponent(mensagem);
-        const linkWhatsApp = `https://wa.me/5516994441318?text=${encodedMensagem}`;
+        const linkWhatsApp = `https://wa.me/5516988532041?text=${encodedMensagem}`;
 
-        const linkDuvidas = `https://wa.me/5516994441318?text=${encodeURIComponent('Olá! Gostaria de tirar algumas dúvidas sobre a reserva do Chalé Castelo Forte.')}`;
+        const linkDuvidas = `https://wa.me/5516988532041?text=${encodeURIComponent('Olá! Gostaria de tirar algumas dúvidas sobre a reserva do Chalé Castelo Forte.')}`;
 
         mostrarResposta(`
         
         <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank">Finalizar pagamento pelo WhatsApp</a>
-        <p><a class="duvidas-link" href="${linkDuvidas}" target="_blank">Tirar mais algumas dúvidas</a></p>
+        
       `);
       });
 
@@ -214,13 +234,13 @@
 
     <div class="banner-slide" id="slide">
 
-      <img class="img_index" src="imagem1.webp" alt="Imagem 1">
+      <img class="img_index" src="imagem1.jpg" alt="Imagem 1">
       <img class="img_index" src="imagem2.jpg" alt="Imagem 1">
       <img class="img_index" src="imagem3.jpg" alt="Imagem 1">
       <img class="img_index" src="imagem4.jpg" alt="Imagem 1">
       <img class="img_index" src="imagem5.jpg" alt="Imagem 1">
       <img class="img_index" src="imagem6.jpg" alt="Imagem 1">
-      <img class="img_index" src="imagem7.webp" alt="Imagem 1">
+      <img class="img_index" src="imagem7.jpg" alt="Imagem 1">
 
     </div>
 
@@ -260,6 +280,5 @@
     <p><a href="https://wa.me/5516988532041" target="_blank">Fale conosco pelo WhatsApp</a></p>
   </div>
 </footer>
-
 
 </html>
