@@ -57,16 +57,25 @@ function closeMenu() {
 
 
 window.addEventListener("scroll", function () {
-    let sidebar = document.querySelector(".sidebar");
+    const sidebar = document.querySelector(".sidebar");
+    const pageWidth = document.documentElement.clientWidth;
 
-    if (window.scrollY > 50) {
-        sidebar.style.opacity = "0"; /* Torna transparente */
-        sidebar.style.transform = "translateY(-20px)"; /* Move para cima */
+    // Só aplica o efeito de desaparecer com rolagem em computadores
+    if (pageWidth >= 800) {
+        if (window.scrollY > 50) {
+            sidebar.style.opacity = "0";
+            sidebar.style.transform = "translateY(-20px)";
+        } else {
+            sidebar.style.opacity = "1";
+            sidebar.style.transform = "translateY(0)";
+        }
     } else {
-        sidebar.style.opacity = "1"; /* Retorna ao normal */
-        sidebar.style.transform = "translateY(0)"; /* Volta à posição original */
+        // Em celulares, mantém o sidebar sempre visível
+        sidebar.style.opacity = "1";
+        sidebar.style.transform = "translateY(0)";
     }
 });
+
 
 
 
