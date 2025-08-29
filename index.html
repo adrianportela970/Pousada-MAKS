@@ -10,14 +10,23 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="icon" href="logo.png" type="image/png">
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RJ75CGY3PG"></script>
+<!-- Event snippet for Contato conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RJ75CGY3PG');
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-17076601497/wUCTCNK66I8bEJmF4c4_',
+      'event_callback': callback
+  });
+  return false;
+}
 </script>
+
 
   
 </head>
@@ -348,6 +357,16 @@
       referrerpolicy="no-referrer-when-downgrade">
     </iframe>
   </div>
+<script>
+  document.addEventListener('click', function (e) {
+    const target = e.target.closest('.btn-whatsapp');
+    if (target) {
+      e.preventDefault(); // Impede o redirecionamento imediato
+      const url = target.getAttribute('href');
+      gtag_report_conversion(url); // Chama a conversão e redireciona depois
+    }
+  });
+</script>
 
   <br>
 </body>
@@ -361,4 +380,5 @@
 </footer>
 
 </html>
+
 
