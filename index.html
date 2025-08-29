@@ -357,16 +357,7 @@ function gtag_report_conversion(url) {
       referrerpolicy="no-referrer-when-downgrade">
     </iframe>
   </div>
-<script>
-  document.addEventListener('click', function (e) {
-    const target = e.target.closest('.btn-whatsapp');
-    if (target) {
-      e.preventDefault(); // Impede o redirecionamento imediato
-      const url = target.getAttribute('href');
-      gtag_report_conversion(url); // Chama a conversão e redireciona depois
-    }
-  });
-</script>
+
 
   <br>
 </body>
@@ -380,5 +371,6 @@ function gtag_report_conversion(url) {
 </footer>
 
 </html>
+
 
 
