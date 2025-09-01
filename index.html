@@ -242,7 +242,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     const mensagem = `Olá! Gostaria de reservar uma data! \n\nCheck-in: ${checkinStr} \n Check-out: ${checkoutStr}.\n\nHóspedes: ${hospedes} pessoa(s).`;
     const encodedMensagem = encodeURIComponent(mensagem);
-    const linkWhatsApp = `https://wa.me/5516988532041?text=${encodedMensagem}`;
+    const linkWhatsApp = `https://api.whatsapp.com/send?phone=5516988532041&text=${encodedMensagem}`;
 
     mostrarResposta(`
       <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank">Reservar pelo WhatsApp</a>
@@ -377,6 +377,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 </html>
+
 
 
 
