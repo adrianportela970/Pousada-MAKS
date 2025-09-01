@@ -244,20 +244,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const encodedMensagem = encodeURIComponent(mensagem);
     const linkWhatsApp = `https://api.whatsapp.com/send?phone=5516988532041&text=${encodedMensagem}`;
 
-mostrarResposta(`
-  <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank">Reservar pelo WhatsApp</a>
-`);
-
-const link = document.querySelector('.btn-whatsapp');
-if (link) {
-  link.addEventListener('click', function () {
-    window.dataLayer = window.dataLayer || [];
-    dataLayer.push({
-      event: 'whatsappReservaClick',
-      link_url: linkWhatsApp
-    });
-  });
-}
+mostrarResposta(` <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank">Reservar pelo WhatsApp</a> `);
 
     // Oculta o botão "Ver Disponibilidade"
     document.querySelector('#reservaForm button[type="submit"]').style.display = 'none';
@@ -388,6 +375,7 @@ if (link) {
 </footer>
 
 </html>
+
 
 
 
