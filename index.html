@@ -29,6 +29,22 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
   gtag('config', 'G-RJ75CGY3PG');
 </script>
 
+<!-- Event snippet for Tag de botão de contato conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-1013713174/H1NXCIy8tpMbEJaSsOMD',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
 
 </head>
 
@@ -245,8 +261,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const encodedMensagem = encodeURIComponent(mensagem);
     const linkWhatsApp = `https://api.whatsapp.com/send?phone=5516988532041&text=${encodedMensagem}`;
 
-mostrarResposta(` <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank">Reservar pelo WhatsApp</a> `);
+mostrarResposta(` <a class="btn-whatsapp" href="${linkWhatsApp}" onclick="handleWhatsAppClick(event)" target="_blank">Reservar pelo WhatsApp</a> `);
 
+
+      function gtag_report_conversion(url) {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'conversion', {
+        'send_to': 'AW-CONVERSION_ID/label',
+        'event_callback': function () {
+          window.open(url, '_blank');
+        }
+      });
+    } else {
+      window.open(url, '_blank');
+    }
+  }
     // Oculta o botão "Ver Disponibilidade"
     document.querySelector('#reservaForm button[type="submit"]').style.display = 'none';
   });
@@ -376,6 +405,7 @@ mostrarResposta(` <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank"
 </footer>
 
 </html>
+
 
 
 
