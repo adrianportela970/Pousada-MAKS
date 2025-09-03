@@ -2,13 +2,7 @@
 <html lang="pt-BR">
 
 <head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5D3BZBRC');</script>
-<!-- End Google Tag Manager -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pousada MAKS</title>
@@ -16,56 +10,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="stylesheet" href="index/styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="icon" href="logo.png" type="image/png">
-<!-- Google tag (gtag.js) -->
-<!-- Event snippet for Contato conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RJ75CGY3PG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-RJ75CGY3PG');
-</script>
-
-
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-11346760919"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-11346760919');
-</script>
-
-<!-- Event snippet for Tag de botão de contato conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-<script>
-function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
-      'send_to': 'AW-1013713174/H1NXCIy8tpMbEJaSsOMD',
-      'event_callback': callback
-  });
-  return false;
-}
-</script>
 
 </head>
 
 <body>
 
   
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5D3BZBRC"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
   <div class="menu-icon" id="menuIcon" onclick="toggleMenu()">&#9776;</div>
   <div id="sidebar" class="sidebar">
 
@@ -272,17 +224,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const encodedMensagem = encodeURIComponent(mensagem);
     const linkWhatsApp = `https://api.whatsapp.com/send?phone=5516988532041&text=${encodedMensagem}`;
 
-mostrarResposta(` <a class="btn-whatsapp" href="${linkWhatsApp}" onclick="handleWhatsAppClick(event)" target="_blank">Reservar pelo WhatsApp</a> `);
-
-
-      function gtag_report_conversion(url) {
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'conversion', {
-        'send_to': 'AW-CONVERSION_ID/label',
-        'event_callback': function () {
-          window.open(url, '_blank');
-        }
-      });
+    mostrarResposta(`
+      <a class="btn-whatsapp" href="${linkWhatsApp}" target="_blank">Reservar pelo WhatsApp</a>
+    `);
     } else {
       window.open(url, '_blank');
     }
@@ -416,6 +360,7 @@ mostrarResposta(` <a class="btn-whatsapp" href="${linkWhatsApp}" onclick="handle
 </footer>
 
 </html>
+
 
 
 
