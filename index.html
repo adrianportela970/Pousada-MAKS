@@ -30,6 +30,42 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
         }
     </script>
 
+
+
+
+
+    <!--Tag de conversão da campanha antiga(temporário)-->
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-11346760919"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-11346760919');
+</script>
+
+   
+    <!-- Event snippet for Tag de botão de contato conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-1013713174/H1NXCIy8tpMbEJaSsOMD',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
+
+
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pousada MAKS</title>
@@ -384,3 +420,4 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 </footer>
 
 </html>
+
