@@ -247,12 +247,12 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 const checkinStr = formatarData(checkin);
                 const checkoutStr = formatarData(checkout);
 
-                const mensagem = `Olá! Gostaria de reservar uma data! \n\nCheck-in: ${checkinStr} \n Check-out: ${checkoutStr}.\n\nHóspedes: ${hospedes} pessoa(s).`;
+                const mensagem = `Olá! Gostaria de verificar a disponibilidade de uma data! \n\nCheck-in: ${checkinStr} \n Check-out: ${checkoutStr}.\n\nHóspedes: ${hospedes} pessoa(s).`;
                 const encodedMensagem = encodeURIComponent(mensagem);
                 const linkWhatsApp = `https://api.whatsapp.com/send?phone=5516988532041&text=${encodedMensagem}`;
 
                 mostrarResposta(`
-      <a class="btn-whatsapp" href="${linkWhatsApp}" onclick="gtag_report_conversion('${linkWhatsApp}'); return false;" target="_blank">Reservar pelo WhatsApp</a>`);
+      <a class="btn-whatsapp" href="${linkWhatsApp}" onclick="gtag_report_conversion('${linkWhatsApp}'); return false;" target="_blank">Verificar Disponibilidade</a>`);
       
 
                 // Oculta o botão "Ver Disponibilidade"
@@ -384,6 +384,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 </footer>
 
 </html>
+
 
 
 
