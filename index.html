@@ -253,7 +253,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 
                 mostrarResposta(`
       <a class="btn-whatsapp" href="${linkWhatsApp}" onclick="gtag_report_conversion('${linkWhatsApp}'); return false;" target="_blank">Verificar Disponibilidade</a>`);
-      
+
 
                 // Oculta o botão "Ver Disponibilidade"
                 document.querySelector('#reservaForm button[type="submit"]').style.display = 'none';
@@ -281,13 +281,33 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             <img class="img_index" src="imagem7.jpg" alt="Imagem 1">
 
         </div>
+      
+
+
+
 
     </div>
-
+<div class="dots-container" id="dots"></div>
     <script>
 
         const slide = document.getElementById('slide');
         const images = slide.querySelectorAll('img');
+        const dotsContainer = document.getElementById('dots');
+
+// Criar dots dinamicamente
+images.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.classList.add('dot');
+  if (i === 0) dot.classList.add('active'); // primeiro ativo
+  dot.addEventListener('click', () => {
+    index = i;
+    updateSlide();
+    pauseAndDelayAutoSlide();
+  });
+  dotsContainer.appendChild(dot);
+});
+const dots = dotsContainer.querySelectorAll('.dot');
+
         let index = 0;
         let startX = 0;
         let isDragging = false;
@@ -297,6 +317,10 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
         // Função para atualizar o slide
         function updateSlide() {
             slide.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => {
+  dot.classList.toggle('active', i === index);
+});
+
         }
 
         // Função para iniciar o slide automático
@@ -377,14 +401,17 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 
 <footer class="rodape">
     <div class="conteudo-rodape">
-        <p>&copy; 2025 Pousada MAKS — Todos os direitos reservados.</p>
-        <p>Contato: <a href="mailto:pousadamaks@gmail.com">pousadamaks@gmail.com</a></p>
-        <p>Telefone:  <a href="https://wa.me/5516988532041" target="_blank" onclick=gtag_report_conversion();>+55 (16) 98853-2041</a></p>
+        <div>
+            <p>&copy; 2025 Pousada MAKS — Todos os direitos reservados.</p>
+        </div>
+        <div>
+            <p>Contato: <a href="mailto:pousadamaks@gmail.com">pousadamaks@gmail.com</a></p>
+        </div>
+        <div>
+            <p>Telefone: <a href="https://wa.me/5516988532041" target="_blank" onclick=gtag_report_conversion();>+55
+                    (16) 98853-2041</a></p>
+        </div>
     </div>
 </footer>
 
 </html>
-
-
-
-
