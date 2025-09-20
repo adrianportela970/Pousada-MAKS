@@ -61,7 +61,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 <li>Reservas Automáticas</li>
             </a>
             <a
-                href="https://wa.me/5516988532041?text=Ol%C3%A1!%20Gostaria%20de%20verificar%20a%20disponibilidade%20de%20alguns%20quartos!">
+                href="https://wa.me/5516988532041?text=Ol%C3%A1!%20Gostaria%20de%20verificar%20a%20disponibilidade%20de%20alguns%20quartos!" onclick=gtag_report_conversion();>
                 <li>Contato</li>
             </a>
         </div>
@@ -247,7 +247,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 const checkinStr = formatarData(checkin);
                 const checkoutStr = formatarData(checkout);
 
-                const mensagem = `Olá! Gostaria de verificar a disponibilidade de uma data! \n\nCheck-in: ${checkinStr} \n Check-out: ${checkoutStr}.\n\nHóspedes: ${hospedes} pessoa(s).`;
+                const mensagem = `Olá! Tem disponibilidade nessa data? \n Se tiver alguma promoçãozinha, eu quero!! 😁 \n\nCheck-in: ${checkinStr} \n Check-out: ${checkoutStr}.\n\nHóspedes: ${hospedes} pessoa(s).`;
                 const encodedMensagem = encodeURIComponent(mensagem);
                 const linkWhatsApp = `https://api.whatsapp.com/send?phone=5516988532041&text=${encodedMensagem}`;
 
@@ -415,3 +415,4 @@ const dots = dotsContainer.querySelectorAll('.dot');
 </footer>
 
 </html>
+
