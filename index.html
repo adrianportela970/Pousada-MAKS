@@ -252,7 +252,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 const linkWhatsApp = `https://api.whatsapp.com/send?phone=5516988532041&text=${encodedMensagem}`;
 
                 mostrarResposta(`
-      <a class="btn-whatsapp" href="${linkWhatsApp}" onclick="gtag_report_conversion('${linkWhatsApp}'); return false;" target="_blank">Verificar Disponibilidade</a>`);
+      <a class="btn-whatsapp" href="${linkWhatsApp}" onclick="gtag_report_conversion('${linkWhatsApp}'); return false;" target="_blank">Verificar Disponibilidade (WhatsApp)</a>`);
 
 
                 // Oculta o botão "Ver Disponibilidade"
@@ -415,4 +415,5 @@ const dots = dotsContainer.querySelectorAll('.dot');
 </footer>
 
 </html>
+
 
