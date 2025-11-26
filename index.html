@@ -155,7 +155,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     <option value="15">15 pessoas</option>
                 </select>
 
-                <button type="submit">Enviar</button>
+                <button type="submit">Verificar Disponibilidade</button>
             </form>
             <div id="resposta" class="resposta-box"></div>
         </div>
@@ -222,7 +222,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 
                 if (isNaN(hospedes) || hospedes < 1 || hospedes > 15) {
                     mostrarResposta('Selecione um número de hóspedes válido.');
-                    return;
+                    return; 
                 }
 
                 const diariaSemana = 112;
@@ -260,7 +260,8 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 
                 const linkReserva = `https://pousadamaks.motordereservas.com.br/novareserva?inicio=${inicio}&fim=${fim}&adultos=${adultos}`;
 
-                window.location.href = linkReserva; // redireciona direto
+              gtag_report_conversion(linkReserva);
+
 
 
                 // Oculta o botão "Ver Disponibilidade"
