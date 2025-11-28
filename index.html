@@ -57,7 +57,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             <a href="index.html">
                 <li>Início</li>
             </a>
-            <a href="revenda.html">
+            <a href="https://pousadamaks.motordereservas.com.br/novareserva">
                 <li>Reservas Automáticas</li>
             </a>
             <a href="https://wa.me/5516988532041?text=Ol%C3%A1!%20Gostaria%20de%20verificar%20a%20disponibilidade%20de%20alguns%20quartos!"
@@ -163,6 +163,10 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
         <script>
+            // *** SUBSTITUA ESTE ENDEREÇO PELO URL DO SEU APLICATIVO WEB DO GOOGLE APPS SCRIPT ***
+            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzl-bvoBYQ2hhuy0vssAs_29PxCfNbRHb4-Xz5TO9z6FEmh5x3_ElznWJaobBocJ9Odzw/exec'; 
+            // ***********************************************************************************
+
 
             let datasSelecionadas = [];
 
@@ -199,17 +203,39 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 const botaoDisponibilidade = document.querySelector('#reservaForm button[type="submit"]');
                 botaoDisponibilidade.style.display = 'inline-block';
 
-                // Remove o botão do WhatsApp se ele estiver visível
+                // Remove a mensagem se estiver visível
                 const respostaBox = document.getElementById('resposta');
                 respostaBox.innerHTML = '';
             }
 
             document.getElementById('hospedes').addEventListener('change', mostrarBotaoDisponibilidade);
 
+            // FUNÇÃO PARA ENVIAR DADOS PARA A PLANILHA
+            function sendDataToSheet(data) {
+                const formData = new URLSearchParams(data).toString();
+                
+                fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    mode: 'no-cors' // Necessário para evitar erros de CORS no Apps Script
+                })
+                .then(response => {
+                    // Como estamos usando 'no-cors', a resposta será opaca e não podemos ler o JSON.
+                    // A requisição foi enviada. Tratamento de sucesso/erro será simplificado.
+                    console.log("Dados de reserva enviados para a planilha.");
+                })
+                .catch(error => {
+                    console.error('Erro ao enviar dados para a planilha:', error);
+                    // Ocultamente ignoramos o erro para não impedir o redirecionamento.
+                });
+            }
+
+
             document.getElementById('reservaForm').addEventListener('submit', function (e) {
                 e.preventDefault();
-
-
 
                 if (datasSelecionadas.length < 2) {
                     mostrarResposta('Selecione o período da reserva.');
@@ -225,8 +251,6 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     return; 
                 }
 
-                const diariaSemana = 112;
-                const diariaFds = 130;
                 const dias = (checkout - checkin) / (1000 * 60 * 60 * 24);
 
                 if (dias <= 0) {
@@ -234,19 +258,20 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     return;
                 }
 
-                let total = 0;
-                for (let i = 0; i < dias; i++) {
-                    const dia = new Date(checkin);
-                    dia.setDate(dia.getDate() + i);
-                    const diaSemana = dia.getDay();
-                    total += (diaSemana === 0 || diaSemana === 6) ? diariaFds : diariaSemana;
-                }
-
-                const valorFinal = total * hospedes;
-                const valorFormatado = formatarMoeda(valorFinal);
                 const checkinStr = formatarData(checkin);
                 const checkoutStr = formatarData(checkout);
-
+                
+                // Preparar e enviar dados para a Planilha Google
+                const dadosParaPlanilha = {
+                    checkin: checkinStr,
+                    checkout: checkoutStr,
+                    hospedes: hospedes
+                };
+                
+                sendDataToSheet(dadosParaPlanilha);
+                
+                // --- CÁLCULOS PARA REDIRECIONAMENTO (MANTIDOS) ---
+                
                 function formatarDataMotor(data) {
                     const dia = String(data.getDate()).padStart(2, '0');
                     const mes = String(data.getMonth() + 1).padStart(2, '0');
@@ -260,9 +285,8 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 
                 const linkReserva = `https://pousadamaks.motordereservas.com.br/novareserva?inicio=${inicio}&fim=${fim}&adultos=${adultos}`;
 
-              gtag_report_conversion(linkReserva);
-
-
+                // Chama a conversão do Google Ads e executa o redirecionamento no callback
+                gtag_report_conversion(linkReserva);
 
                 // Oculta o botão "Ver Disponibilidade"
                 document.querySelector('#reservaForm button[type="submit"]').style.display = 'none';
