@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pousada MAKS</title>
+    
+    <link rel="icon" href="pacotes/imgns/logo.png" type="image/png">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJ75CGY3PG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RJ75CGY3PG');
+
+        function gtag_report_conversion(url) {
+            var callback = function () {
+                if (typeof (url) != 'undefined') window.location = url;
+            };
+            gtag('event', 'conversion', {
+                'send_to': 'AW-17076601497/0FMvCOCl748bEJmF4c4_',
+                'value': 0.0,
+                'currency': 'BRL',
+                'event_callback': callback
+            });
+            return false;
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Lato', sans-serif; background-color: #fff; color: #333;  }
+        
+    </style>
+    
+</head>
+
+<body>
+
+
+<section id="menu-area">
+    <style>
+        /* Estilos Desktop */
+        .header-nav { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px; 
+            background: #bfffbd; display: flex; align-items: center; 
+            justify-content: space-between; padding: 0 5%; z-index: 9999; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        .logo-box { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; color: #333; }
+        .logo-box img { width: 45px; height: 45px; border-radius: 50%; }
+        .nav-links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 600;font-family: 'Lato', sans-serif;}
+        .menu-toggle { display: none; font-size: 30px; cursor: pointer; color: #333; }
+        .close-menu { display: none; }
+
+        /* Mobile - Apenas o ícone visível */
+        @media (max-width: 768px) {
+            .header-nav { 
+                background: transparent; /* Remove o fundo no mobile */
+                box-shadow: none; /* Remove a sombra */
+                pointer-events: none; /* Garante que o header invisível não bloqueie cliques */
+            }
+
+            .logo-box { display: none; } /* Esconde logo/nome no mobile fora do menu */
+
+            .menu-toggle { 
+                display: block; 
+                pointer-events: auto; /* Reativa o clique apenas no ícone */
+                position: fixed; top: 15px; left: 15px; 
+            }
+
+            /* Sidebar Lateral Dark */
+            .nav-links {
+                pointer-events: auto;
+                position: fixed; top: 0; left: -300px; 
+                width: 300px; height: 100vh;
+                background: #111; 
+                flex-direction: column; padding: 60px 20px;
+                transition: 0.4s ease-in-out;
+                box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+                gap: 20px;
+            }
+
+            .nav-links.active { left: 0; }
+            .nav-links a { color: #fff; font-size: 1.2rem; border-bottom: 1px solid #333; padding-bottom: 10px; display: block; }
+            
+            .close-menu {
+                display: block; position: absolute; top: 15px; right: 20px;
+                font-size: 36px; color: #fff; cursor: pointer;
+            }
+
+            /* Reexibe a Logo dentro do Menu Lateral (Opcional) */
+            .nav-links::before {
+                content: "Pousada MAKS";
+                color: #bfffbd;
+                font-weight: bold;
+                font-size: 1.4rem;
+                margin-bottom: 20px;
+                display: block;
+            }
+        }
+    </style>
+
+    <nav class="header-nav">
+        <div class="logo-box">
+            <img src="index/imgns/logo.png" alt="Logo">
+            <span>Pousada MAKS</span>
+        </div>
+        
+        <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+
+        <ul class="nav-links" id="sidebarMenu">
+            <div class="close-menu" onclick="toggleSidebar()">×</div>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="pacotes.html">Pacotes</a></li>
+            <li><a href="sobrenos.html">Quem Somos</a></li>
+            <li><a href="#" onclick="gtag_report_conversion('https://wa.me/5516988532041')">Contato</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebarMenu').classList.toggle('active');
+        }
+    </script>
+</section>
+
+<section class="sec_pacotes">
+    <div class="img_pacotes">
+        <div onclick="window.location.href='empresarial.html'" style="cursor: pointer;">
+            <h1>Empresarial</h1>
+            <p>Pacote ideal para empresas que desejam hospedar seus funcionários ou clientes com conforto e praticidade.</p>
+            <p class="emoj_card_pact">💼</p>
+        </div>
+        <div onclick="window.location.href='viajantes.html'" style="cursor: pointer;">
+            <h1>Viajantes</h1>
+            <p>Pacote perfeito para viajantes que buscam explorar a região com conforto e conveniência.</p>
+            <p class="emoj_card_pact">🌍</p>
+        </div>
+        <div onclick="window.location.href='casais.html'" style="cursor: pointer;">
+            <h1>Casais</h1>
+            <p>Pacote romântico com acomodações aconchegantes para uma escapada inesquecível a dois.</p>
+            <p class="emoj_card_pact">💑</p>
+        </div>
+    </div>
+
+    <style>
+        /* RESET BÁSICO */
+        .sec_pacotes * { box-sizing: border-box; }
+
+        /* DESKTOP (FIEL AO ORIGINAL) */
+        @media (min-width: 736px) {
+            .sec_pacotes {
+                background-color: #bfffbd;
+                min-height: 27rem;
+                margin-top: 70px;
+                display: flex;
+                align-items: center;
+                padding: 3rem 10%;
+            }
+            .img_pacotes {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                gap: 20px;
+            }
+            .img_pacotes div {
+                width: 25%;
+                height: 20rem;
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 8px 25px rgba(0, 100, 0, 0.1);
+                padding: 3rem 1rem 1rem;
+                text-align: center;
+                transition: transform 0.3s ease;
+            }
+            .img_pacotes div:hover {
+                transform: scale(1.07);
+                box-shadow: 0 5px 30px rgba(0, 0, 0, 0.801);
+            }
+            .emoj_card_pact { font-size: 3rem; margin-top: 2rem; }
+        }
+
+        /* MOBILE CORRIGIDO */
+        @media (max-width: 735px) {
+            .sec_pacotes {
+                background-image: url(img1.jpg);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                padding: 40px 0; /* Padding lateral zerado aqui */
+                display: block; /* Remove o flex que causava o erro */
+            }
+            .img_pacotes {
+                display: flex;
+                flex-direction: column; /* Força empilhamento */
+                align-items: center; /* Centraliza os cards */
+                gap: 25px;
+                width: 100%;
+            }
+            .img_pacotes div {
+                width: 85%; /* Card não toca as bordas */
+                max-width: 320px; /* Evita que fique gigante em telas médias */
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+                padding: 30px 20px;
+                text-align: center;
+                /* Animação */
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s ease, transform 0.6s ease;
+            }
+            .img_pacotes div.visible { opacity: 1; transform: translateY(0); }
+            .emoj_card_pact { font-size: 3rem; margin-top: 15px; }
+            .img_pacotes div h1 { font-size: 1.5rem; margin-bottom: 10px; color: #333; }
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cardsPacotes = document.querySelectorAll('.img_pacotes div');
+            function animarScroll() {
+                cardsPacotes.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.9) {
+                        card.classList.add('visible');
+                    }
+                });
+            }
+            window.addEventListener('scroll', animarScroll);
+            animarScroll();
+        });
+    </script>
+</section>
+
+
+<section id="chales">
+    <style>
+        .section-title { text-align: center; padding: 60px 20px 20px; font-size: 2rem; color: #1b5e20; }
+        .chales-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 0 8% 60px; }
+        .card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s; text-decoration: none; color: inherit; display: flex; flex-direction: column; border: 1px solid #eee; cursor: pointer; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card h3 { margin: 0 0 10px; font-size: 1.25rem; color: #333; font-weight: 800; }
+        .card p { font-size: 0.9rem; color: #666; margin-bottom: 20px; flex-grow: 1; }
+        .card .badge { align-self: flex-start; background: #e8f5e9; color: #2e7d32; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; }
+        .btn-info { display: inline-block; align-self: flex-start; color: #2e7d32; font-weight: bold; border: 2px solid #2e7d32; padding: 6px 18px; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; }
+        .card:hover .btn-info { background: #2e7d32; color: #fff; }
+
+        .modal-chale { display: none; position: fixed; z-index: 10001; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: #fff; width: 100%; max-width: 600px; border-radius: 20px; overflow: hidden; position: relative; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .close-modal { position: sticky; top: 15px; float: right; margin-right: 15px; font-size: 30px; cursor: pointer; z-index: 100; color: #333; background: rgba(255,255,255,0.9); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+        .modal-slider { position: relative; width: 100%; height: 300px; overflow: hidden; background: #eee; clear: both; }
+        .modal-slider img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .modal-slider img.active { display: block; }
+        .nav-modal { position: absolute; top: 150px; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); padding: 0 10px; pointer-events: none; z-index: 5; }
+        .nav-modal span { pointer-events: auto; background: rgba(0,0,0,0.5); color: #fff; padding: 10px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+
+        .modal-text { padding: 25px; clear: both; }
+        .modal-text h2 { color: #1b5e20; margin-top: 0; font-weight: 800; }
+        .modal-text p { color: #555; line-height: 1.6; white-space: pre-line; margin-bottom: 20px; }
+    </style>
+
+    <h2 class="section-title">Explore nossos Chalés</h2>
+    
+    <div class="chales-grid">
+        <div class="card" onclick="openModal('🌸 Chalé Primavera', `🌿 Conforto versátil em meio à natureza!
+A cozinha é completa, equipada com panelas, pratos, copos, talheres, fogão elétrico, geladeira, pia e tanque, oferecendo toda a praticidade para sua estadia. 🍽️❄️🔥
+
+As acomodações incluem cama King de casal ou King Flex (que pode ser convertida em duas de solteiro), além de sofá-bicama, roupas de cama e toalhas. 🛏️🧺
+O espaço dispõe de ar-condicionado, chuveiro quente, TV e Wi-Fi, garantindo conforto e comodidade. 🌬️💦📺📶
+
+A área externa oferece vista para o campo, churrasqueira móvel e estacionamento com câmera de monitoramento silenciosa para maior segurança. 🌾🔥🚗🔒
+
+🌟 Áreas comuns para todos os hóspedes:
+🏊‍♂️ Piscina com hidromassagem e luz de LED
+🌿 Cama de jardim para relaxar ao ar livre
+👀 Mirante no pé de jaca com vista especial
+💞 Balanço namoradeira à beira da piscina
+🚿 Banheiros para banho na área da piscina
+🚻 Dois banheiros para necessidades fisiológicas
+Refeição: Café da Manhã
+Camas: Casal - 2 Pessoa(s), Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem1.jpg'])">
+            <img src="pacotes/imgns/imagem1.jpg">
+            <div class="card-content">
+                <span class="badge">FAMÍLIAS</span>
+                <h3>🌸 Chalé Primavera</h3>
+                <p>Versátil e confortável, ótimo para grupos que querem aproveitar a roça.</p>
+                <span class="btn-info">Ver Detalhes</span>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('🤠 Chalé Country', `🌿 Tranquilidade com um toque rústico e acolhedor!
+Acomoda com conforto, oferecendo uma cama King Flex (que pode ser convertida em duas de solteiro), além de roupas de cama e toalhas incluídas. 🛏️🧺
+
+A cozinha equipada conta com utensílios básicos — panelas, pratos, copos e talheres — além de fogão elétrico, geladeira, pia e tanque. 🍽️🧼
+
+O espaço dispõe de ar-condicionado, chuveiro quente, TV, Wi-Fi e uma charmosa varanda com rede de descanso. 📺💦📶🌤️
+
+Na área externa, você encontra uma linda vista para o campo, piscina, churrasqueira móvel, jardim e estacionamento com câmera silenciosa. 🌾🏊‍♂️🔥🌼🚗
+🌟 Áreas comuns para todos os hóspedes:
+🏊‍♂️ Piscina com hidromassagem e luz de LED
+🌿 Cama de jardim para relaxar ao ar livre
+👀 Mirante no pé de jaca com vista especial
+💞 Balanço namoradeira à beira da piscina
+🚿 Banheiros para banho na área da piscina
+🚻 Dois banheiros para necessidades fisiológicas
+Refeição: Café da Manhã
+Camas: Casal - 2 Pessoa(s), Casal - 2 Pessoa(s), Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem7.jpg'])">
+            <img src="pacotes/imgns/imagem7.jpg">
+            <div class="card-content">
+                <span class="badge">RÚSTICO</span>
+                <h3>🤠 Chalé Country</h3>
+                <p>Aconchegante e simples, ideal para momentos de puro descanso.</p>
+                <span class="btn-info">Ver Detalhes</span>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('🦩 Chalé Flamingo', `✨ Espaço, conforto e estilo!
+O ambiente conta com utensílios básicos (copos, talheres e pratos), geladeira e fogão elétrico para maior praticidade. 🍽️❄️🔥
+
+Acomoda com cama King Flex (que pode ser convertida em duas de solteiro), além de roupas de cama e toalhas incluídas. 🛏️🧺
+Dispõe de ar-condicionado, chuveiro quente, Wi-Fi, varanda ampla e uma aconchegante rede de descanso. 🌬️💦📶🌤️
+
+Na área externa, você encontra vista para o campo, estacionamento amplo com câmera, churrasqueira móvel e jardim para momentos especiais. 🌾🚗🔥🌼
+
+🌟 Áreas comuns para todos os hóspedes:
+🏊‍♂️ Piscina com hidromassagem e luz de LED
+🌿 Cama de jardim para relaxar ao ar livre
+👀 Mirante no pé de jaca com vista especial
+💞 Balanço namoradeira à beira da piscina
+🚿 Banheiros para banho na área da piscina
+🚻 Dois banheiros para necessidades fisiológicas
+Refeição: Café da Manhã
+
+Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem4.jpg'])">
+            <img src="pacotes/imgns/imagem4.jpg">
+            <div class="card-content">
+                <span class="badge">ESTILO</span>
+                <h3>🦩 Chalé Flamingo</h3>
+                <p>Espaçoso e elegante, perfeito para conforto em meio ao verde.</p>
+                <span class="btn-info">Ver Detalhes</span>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('🌳 Casa da Árvore', `Simples, rústico e cheio de charme! ✨
+O espaço conta com pratos, talheres e copos à disposição (caso necessário), geladeira e cama de casal equipada com roupas de cama e toalhas. 🛏️🧴
+Dispõe ainda de ventilador, chuveiro quente e Wi-Fi para maior conforto. 📶
+
+A área externa oferece uma vista incrível para a piscina, além de estacionamento com câmera de segurança e churrasqueira móvel para aproveitar momentos especiais. 🚗🔒🔥
+🌟 Áreas comuns para todos os hóspedes:
+🏊‍♂️ Piscina com hidromassagem e luz de LED
+🌿 Cama de jardim para relaxar ao ar livre
+👀 Mirante no pé de jaca com vista especial
+💞 Balanço namoradeira à beira da piscina
+🚿 Banheiros para banho na área da piscina
+🚻 Dois banheiros para necessidades fisiológicas
+Refeição: Café da Manhã
+Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem6.jpg'])">
+            <img src="pacotes/imgns/imagem6.jpg">
+            <div class="card-content">
+                <span class="badge">AVENTURA</span>
+                <h3>🌳 Casa da Árvore</h3>
+                <p>Experiência única com charme natural e vista privilegiada.</p>
+                <span class="btn-info">Ver Detalhes</span>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('🌻 Chalé Girassol', `☀️ Simples, funcional e com um toque solar!
+O espaço é equipado com pratos, copos, talheres, fogão elétrico de 2 bocas e geladeira, garantindo praticidade no dia a dia. 🍽️❄️🔥
+
+As acomodações incluem cama de casal com roupas de cama, toalhas e itens básicos de higiene. 🛏️🧺🧴
+Conta ainda com ar-condicionado, chuveiro quente, Wi-Fi, varanda e uma linda vista para a piscina. 🌬️💦📶🏊‍♂️
+
+Na área externa, você encontra estacionamento e churrasqueira móvel para momentos ao ar livre. 🚗🔥🌿
+
+🌟 Áreas comuns para todos os hóspedes:
+🏊‍♂️ Piscina com hidromassagem e luz de LED
+🌿 Cama de jardim para relaxar ao ar livre
+👀 Mirante no pé de jaca com vista especial
+💞 Balanço namoradeira à beira da piscina
+🚿 Banheiros para banho na área da piscina
+🚻 Dois banheiros para necessidades fisiológicas
+Refeição: Café da Manhã
+Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem5.jpg'])">
+            <img src="pacotes/imgns/imagem5.jpg">
+            <div class="card-content">
+                <span class="badge">PRATICIDADE</span>
+                <h3>🌻 Chalé Girassol</h3>
+                <p>Funcional e muito iluminado para quem busca simplicidade.</p>
+                <span class="btn-info">Ver Detalhes</span>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('🐾 Chalé Onça', `🌾 Seu refúgio no campo!
+A cozinha é totalmente equipada com fogão, geladeira, forno e utensílios básicos, garantindo praticidade para suas refeições. 🍽️🔥❄️
+
+O espaço acomoda com conforto em 3 camas de solteiro, incluindo roupas de cama e toalhas. 🛏️🧺
+Conta ainda com ar-condicionado, chuveiro quente, TV e Wi-Fi, trazendo a combinação ideal entre natureza e comodidade. 🌬️💦📺📶
+
+A área externa oferece varanda aconchegante, rede de descanso, vista para o campo, piscina, estacionamento, churrasqueira móvel e jardim — perfeito para relaxar e aproveitar o ar livre. 🌤️🌿🔥🚗🌼
+📹 Segurança garantida com câmera de monitoramento.
+
+✨ Ideal para quem busca conforto, natureza e tranquilidade.
+
+🌟 Áreas comuns para todos os hóspedes:
+🏊‍♂️ Piscina com hidromassagem e luz de LED
+🌿 Cama de jardim para relaxar ao ar livre
+👀 Mirante no pé de jaca com vista especial
+💞 Balanço namoradeira à beira da piscina
+🚿 Banheiros para banho na área da piscina
+🚻 Dois banheiros para necessidades fisiológicas
+Refeição: Café da Manhã
+Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem3.jpg'])">
+            <img src="pacotes/imgns/imagem3.jpg">
+            <div class="card-content">
+                <span class="badge">VISTA CAMPO</span>
+                <h3>🐾 Chalé Onça</h3>
+                <p>Tranquilidade garantida com uma varanda charmosa para o horizonte.</p>
+                <span class="btn-info">Ver Detalhes</span>
+            </div>
+        </div>
+
+        <div class="card" onclick="openModal('🍃 Chalé Jatobá', `🍃 Simples, fresco e funcional!
+O espaço conta com pratos, copos, talheres e geladeira, garantindo praticidade no dia a dia. 🍽️❄️
+
+As acomodações incluem cama de solteiro, bicama, roupas de cama e toalhas já disponíveis para seu conforto. 🛏️🧺
+Dispõe de ar-condicionado, chuveiro quente, Wi-Fi, varanda e uma acolhedora rede de descanso. 🌬️💦📶🌤️
+
+A área externa oferece vista para o jardim, piscina e estacionamento com câmera de segurança silenciosa. 🌿🏊‍♂️🚗🔒
+
+🌟 Áreas comuns para todos os hóspedes:
+🏊‍♂️ Piscina com hidromassagem e luz de LED
+🌿 Cama de jardim para relaxar ao ar livre
+👀 Mirante no pé de jaca com vista especial
+💞 Balanço namoradeira à beira da piscina
+🚿 Banheiros para banho na área da piscina
+🚻 Dois banheiros para necessidades fisiológicas
+Refeição: Café da Manhã
+Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem2.jpg'])">
+            <img src="pacotes/imgns/imagem2.jpg">
+            <div class="card-content">
+                <span class="badge">RELAX</span>
+                <h3>🍃 Chalé Jatobá</h3>
+                <p>Fresco e relaxante, com rede na varanda e vista para o jardim.</p>
+                <span class="btn-info">Ver Detalhes</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="chaleModal" class="modal-chale">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-slider" id="modalSlider"></div>
+            <div class="nav-modal">
+                <span onclick="changeImg(-1)">&#10094;</span>
+                <span onclick="changeImg(1)">&#10095;</span>
+            </div>
+            <div class="modal-text">
+                <h2 id="modalTitle"></h2>
+                <p id="modalDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentImgIndex = 0;
+        let activeImages = [];
+
+        function openModal(title, desc, images) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            activeImages = images;
+            currentImgIndex = 0;
+            const slider = document.getElementById('modalSlider');
+            slider.innerHTML = ''; 
+            images.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                if(index === 0) img.classList.add('active');
+                slider.appendChild(img);
+            });
+            document.getElementById('chaleModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('chaleModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImg(step) {
+            const imgs = document.querySelectorAll('#modalSlider img');
+            if(imgs.length <= 1) return;
+            imgs[currentImgIndex].classList.remove('active');
+            currentImgIndex = (currentImgIndex + step + imgs.length) % imgs.length;
+            imgs[currentImgIndex].classList.add('active');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('chaleModal')) closeModal();
+        }
+    </script>
+</section>
+
+<section id="mapa">
+    <style>
+        .map-section { background: linear-gradient(180deg, #fff 0%, #f1f8e9 100%); padding: 60px 8%; text-align: center; }
+        .map-container { border: 10px solid #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 1000px; margin: 30px auto; }
+        .map-section h2 { color: #1b5e20; margin-bottom: 10px; }
+    </style>
+    <div class="map-section">
+        <h2>📍 Localização Privilegiada</h2>
+        <p>Fácil acesso para o seu refúgio de final de semana.</p>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119068.3186231305!2d-47.87787481173146!3d-21.156976105233007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b9c062fbadd56b%3A0x3ff82f6aa62b259a!2sPOUSADA%20MAKS!5e0!3m2!1spt-BR!2sbr!4v1766088281827!5m2!1spt-BR!2sbr"
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <style>
+        .footer { background: #333; color: white; padding: 40px 20px; text-align: center; }
+        .footer a { color: #25d366; text-decoration: none; }
+    </style>
+    <div class="footer">
+        <p>© 2025 Pousada MAKS — Todos os direitos reservados.</p>
+        <p>Email: <a href="mailto:pousadamaks@gmail.com">pousadamaks@gmail.com</a></p>
+        <p>WhatsApp: <a href="https://wa.me/5516988532041">+55 (16) 98853-2041</a></p>
+    </div>
+</footer>
+</body>
+</html>
