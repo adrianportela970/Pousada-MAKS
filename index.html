@@ -125,54 +125,19 @@
 </section>
 
 <section id="hero">
-<style>
-        .hero-section { 
-            position: relative; 
-            /* Removido margin-top para a imagem encostar no topo */
-            margin-top: 0; 
-            height: 70vh; 
-            min-height: 550px; 
-            overflow: hidden; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            /* Padding para o card não bater no menu no Desktop */
-            padding-top: 70px; 
-        }
-        
+    <style>
+        .hero-section { position: relative; margin-top: 0; height: 70vh; min-height: 550px; overflow: hidden; display: flex; align-items: center; justify-content: center; padding-top: 70px; }
         .slider-wrapper { position: absolute; top: 0; left: 0; display: flex; width: 100%; height: 100%; z-index: 1; transition: transform 0.8s ease-in-out; }
         .slider-wrapper img { min-width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
-        
-        .booking-card { 
-            position: relative; 
-            z-index: 20; 
-            background: rgba(255,255,255,0.95); 
-            backdrop-filter: blur(10px); 
-            padding: 25px; 
-            border-radius: 20px; 
-            width: 92%; 
-            max-width: 380px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            text-align: center; 
-        }
-        
+        .booking-card { position: relative; z-index: 20; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); padding: 25px; border-radius: 20px; width: 92%; max-width: 380px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); text-align: center; }
         .booking-card h1 { margin: 0; color: #1b5e20; font-size: 1.5rem; }
         .booking-card label { display: block; text-align: left; margin: 10px 0 5px; font-weight: bold; font-size: 0.85rem; }
         .booking-card input, .booking-card select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; margin-bottom: 5px; background: #fff; }
-        
-        .btn-main { background: #2e7d32; color: #fff; border: none; width: 100%; padding: 15px; margin-top: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem; }
-        .btn-main:hover { background: #1b5e20; transform: scale(1.02); }
-
-        .opcoes-reserva { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-        .btn-motor { background: #1b5e20; color: white; padding: 14px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
-        .btn-wpp { background: #25d366; color: white; padding: 14px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .btn-main { background: #25d366; color: #fff; border: none; width: 100%; padding: 15px; margin-top: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem; }
+        .btn-main:hover { background: #128c7e; transform: scale(1.02); }
 
         @media (max-width: 768px) { 
-            .hero-section { 
-                height: 100vh; /* No mobile ocupa a tela toda para destacar as fotos */
-                min-height: 600px; 
-                padding-top: 0; /* No mobile o menu é invisível, então zero o respiro */
-            } 
+            .hero-section { height: 100vh; min-height: 600px; padding-top: 0; } 
             .booking-card { padding: 20px; }
         }
     </style>
@@ -180,7 +145,7 @@
     <div class="hero-section">
         <div class="booking-card">
             <h1>🌿 Pousada MAKS!</h1>
-            <p style="color:#666; font-size: 0.85rem;">Escolha como prefere reservar:</p>
+            <p style="color:#666; font-size: 0.85rem;">Consulte disponibilidade via WhatsApp:</p>
             
             <form id="reservaForm">
                 <label for="datas">Período:</label>
@@ -192,10 +157,8 @@
                     <script>for(let i=1;i<=15;i++) document.write(`<option value="${i}">${i} pessoa(s)</option>`);</script>
                 </select>
                 
-                <button type="submit" class="btn-main" id="btnEnviar">VERIFICAR DISPONIBILIDADE</button>
+                <button type="submit" class="btn-main">CONSULTAR PELO WHATSAPP</button>
             </form>
-
-            <div id="resposta" class="opcoes-reserva"></div>
         </div>
 
         <div class="slider-wrapper" id="slider">
@@ -206,63 +169,46 @@
         </div>
     </div>
 
-<script>
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzl-bvoBYQ2hhuy0vssAs_29PxCfNbRHb4-Xz5TO9z6FEmh5x3_ElznWJaobBocJ9Odzw/exec';
-    let datasSelecionadas = [];
+    <script>
+        let datasSelecionadas = [];
 
-    // Slider
-    let cur = 0; const sld = document.getElementById('slider'), imgs = sld.querySelectorAll('img');
-    setInterval(() => { cur = (cur + 1) % imgs.length; sld.style.transform = `translateX(-${cur * 100}%)`; }, 4000);
+        // Slider
+        let cur = 0; const sld = document.getElementById('slider'), imgs = sld.querySelectorAll('img');
+        setInterval(() => { cur = (cur + 1) % imgs.length; sld.style.transform = `translateX(-${cur * 100}%)`; }, 4000);
 
-    // Calendário
-    flatpickr("#datas", { 
-        mode: "range", locale: "pt", dateFormat: "d/m/Y", 
-        onChange: (s) => { 
-            datasSelecionadas = s; 
-            document.getElementById('btnEnviar').style.display = 'block'; 
-            document.getElementById('resposta').innerHTML = ''; 
-        } 
-    });
-
-    document.getElementById('reservaForm').onsubmit = function(e) {
-        e.preventDefault();
-        if (datasSelecionadas.length < 2) return alert("Selecione entrada e saída.");
-
-        const h = document.getElementById('hospedes').value;
-        const dIn = datasSelecionadas[0], dOut = datasSelecionadas[1];
-        
-        const fDate = (d) => d.toLocaleDateString('pt-BR');
-        const sIn = fDate(dIn), sOut = fDate(dOut);
-        const fMotor = (d) => d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
-        
-        // 1. Enviar para Planilha Google
-        fetch(WEB_APP_URL, {
-            method: 'POST', mode: 'no-cors',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: new URLSearchParams({checkin: sIn, checkout: sOut, hospedes: h}).toString()
+        // Calendário
+        flatpickr("#datas", { 
+            mode: "range", locale: "pt", dateFormat: "d/m/Y", 
+            onChange: (s) => { datasSelecionadas = s; } 
         });
 
-        // 2. Gerar Links (Mensagem do WhatsApp formatada conforme solicitado)
-        const linkMotor = `https://pousadamaks.motordereservas.com.br/novareserva?inicio=${fMotor(dIn)}&fim=${fMotor(dOut)}&adultos=${h}`;
-        
-        const msgWpp = encodeURIComponent(
-            `Olá! Tem disponibilidade nessa data?\n\n` +
-            `Check-in: ${sIn}\n` +
-            `Check-out: ${sOut}.\n\n` +
-            `Hóspedes: ${h} pessoa(s).`
-        );
-        
-        const linkWpp = `https://wa.me/5516988532041?text=${msgWpp}`;
+        document.getElementById('reservaForm').onsubmit = function(e) {
+            e.preventDefault();
+            if (datasSelecionadas.length < 2) return alert("Selecione entrada e saída.");
 
-        // 3. Exibir Opções com Rastreamento de Conversão
-        document.getElementById('btnEnviar').style.display = 'none';
-        document.getElementById('resposta').innerHTML = `
-            <a href="${linkMotor}" class="btn-motor" onclick="gtag_report_conversion('${linkMotor}'); return false;">RESERVA DIRETA (Site)</a>
-            <a href="${linkWpp}" class="btn-wpp" onclick="gtag_report_conversion('${linkWpp}'); return false;" target="_blank">RESERVA VIA WHATSAPP</a>
-        `;
-    };
-</script>
+            const h = document.getElementById('hospedes').value;
+            const sIn = datasSelecionadas[0].toLocaleDateString('pt-BR');
+            const sOut = datasSelecionadas[1].toLocaleDateString('pt-BR');
+            
+            const msgWpp = encodeURIComponent(
+                `Olá! Tem disponibilidade nessa data?\n\n` +
+                `Check-in: ${sIn}\n` +
+                `Check-out: ${sOut}.\n\n` +
+                `Hóspedes: ${h} pessoa(s).`
+            );
+            
+            const linkWpp = `https://wa.me/5516988532041?text=${msgWpp}`;
+            
+            // Chama a conversão se o script do Google Ads estiver presente
+            if (typeof gtag_report_conversion === "function") {
+                gtag_report_conversion(linkWpp);
+            }
+            
+            window.open(linkWpp, '_blank');
+        };
+    </script>
 </section>
+<!-- whatsapp -->
 
 
 <section id="chales">
