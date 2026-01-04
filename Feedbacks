@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedbacks - Pousada MAKS</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+        }
+
+        body {
+            background: linear-gradient(to right, #00ff62, #00af17);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .div-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        img {
+            margin-bottom: 1rem;
+            border-radius: 100%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .form-container {
+            margin-top: 3rem;
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h4 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #333;
+        }
+
+        .question-group {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-group label {
+            display: block;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .enviar {
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .enviar:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .enviar:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        #star-rating {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            min-height: 2rem;
+            text-align: center;
+        }
+
+        #star-rating .star {
+            font-size: 250%;
+            width: 20%;
+            cursor: pointer;
+            color: #ccc;
+            transition: color 0.4s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <div class="div-logo">
+            <img src="index/imgns/logo.png" alt="logo da te-levo-mobile">
+            <h1> Pousada MAKS</h1>
+        </div>
+        <h4>Sua avaliação é importante para nós!</h4>
+        <form onsubmit="enviarDados(event)">
+
+            <div class="question-group">
+                <label>Como você avalia nosso serviço?</label>
+                <div id="star-rating">
+                    <span class="star" data-value="1">&#9733;</span>
+                    <span class="star" data-value="2">&#9733;</span>
+                    <span class="star" data-value="3">&#9733;</span>
+                    <span class="star" data-value="4">&#9733;</span>
+                    <span class="star" data-value="5">&#9733;</span>
+                </div>
+                <input type="hidden" name="avaliacao" id="avaliacao" required>
+            </div>
+
+            <div class="question-group">
+                <label>Feedback de melhoria:</label>
+                <textarea name="feedback" rows="5" placeholder="Descreva mais detalhes suas recomendações" required></textarea>
+            </div>
+            <p style="text-align: center;">Aqui, a sua opinião importa!</p>
+            <button class="enviar" type="submit" id="btnEnviar">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        const stars = document.querySelectorAll('#star-rating .star');
+        const avaliacaoInput = document.getElementById('avaliacao');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = star.getAttribute('data-value');
+                avaliacaoInput.value = rating;
+
+                stars.forEach(s => {
+                    s.style.color = s.getAttribute('data-value') <= rating ? '#FFD700' : '#ccc';
+                });
+            });
+        });
+
+        const script_do_google = 'https://script.google.com/macros/s/AKfycbyZtmsh6qApP5Z_xIFkI0mdBsM5eriz768Z0BK_tA3yloUta2f0OzX8HEbuV-rvvcLwSg/exec';
+
+        function enviarDados(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const btn = document.getElementById('btnEnviar');
+            
+            // Validação simples
+            if(!form.avaliacao.value) {
+                alert("Por favor, selecione uma nota clicando nas estrelas.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Enviando...";
+
+            const dados = new URLSearchParams();
+            dados.append('avaliacao', form.avaliacao.value);
+            dados.append('feedback', form.feedback.value);
+
+            fetch(script_do_google, {
+                method: 'POST',
+                mode: 'no-cors', // Essencial para evitar erros de política do navegador
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: dados.toString()
+            })
+            .then(() => {
+                // No modo no-cors o fetch não retorna o JSON, mas o sucesso é quase garantido se não cair no catch
+                alert("Dados enviados com sucesso!");
+                form.reset();
+                stars.forEach(s => s.style.color = '#ccc');
+                avaliacaoInput.value = "";
+            })
+            .catch(error => {
+                console.error('Erro no envio!', error);
+                alert('Ocorreu um erro ao enviar. Tente novamente.');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerText = "Enviar";
+            });
+        }
+    </script>
+</body>
+
+</html>
