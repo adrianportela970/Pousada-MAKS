@@ -113,6 +113,7 @@
             <li><a href="index.html">Início</a></li>
             <li><a href="pacotes.html">Pacotes</a></li>
             <li><a href="sobrenos.html">Quem Somos</a></li>
+            <li><a href="politicas.html">Políticas</a></li>
             <li><a href="#" onclick="gtag_report_conversion('https://wa.me/5516988532041')">Contato</a></li>
         </ul>
     </nav>
@@ -171,17 +172,46 @@
 
     <script>
         let datasSelecionadas = [];
+        const scriptURL = 'SUA_URL_DO_GOOGLE_SCRIPTS_AQUI';
 
         // Slider
-        let cur = 0; const sld = document.getElementById('slider'), imgs = sld.querySelectorAll('img');
-        setInterval(() => { cur = (cur + 1) % imgs.length; sld.style.transform = `translateX(-${cur * 100}%)`; }, 4000);
+        let cur = 0; 
+        const sld = document.getElementById('slider');
+        const imgs = sld.querySelectorAll('img');
+        setInterval(() => { 
+            cur = (cur + 1) % imgs.length; 
+            sld.style.transform = `translateX(-${cur * 100}%)`; 
+        }, 4000);
 
         // Calendário
         flatpickr("#datas", { 
-            mode: "range", locale: "pt", dateFormat: "d/m/Y", 
+            mode: "range", 
+            locale: "pt", 
+            dateFormat: "d/m/Y",
+            minDate: "today",
             onChange: (s) => { datasSelecionadas = s; } 
         });
 
+        // ENVIO AUTOMÁTICO PARA PLANILHA (Ao selecionar hóspedes)
+        document.getElementById('hospedes').addEventListener('change', function() {
+            if (datasSelecionadas.length < 2) return;
+
+            const h = this.value;
+            const sIn = datasSelecionadas[0].toLocaleDateString('pt-BR');
+            const sOut = datasSelecionadas[1].toLocaleDateString('pt-BR');
+
+            const body = new FormData();
+            body.append('checkin', sIn);
+            body.append('checkout', sOut);
+            body.append('hospedes', h);
+            body.append('status', 'Interesse (Pré-WhatsApp)');
+
+            fetch(scriptURL, { method: 'POST', body: body, keepalive: true })
+                .then(() => console.log("Dados salvos automaticamente."))
+                .catch(err => console.error("Erro no salvamento automático:", err));
+        });
+
+        // BOTÃO WHATSAPP
         document.getElementById('reservaForm').onsubmit = function(e) {
             e.preventDefault();
             if (datasSelecionadas.length < 2) return alert("Selecione entrada e saída.");
@@ -199,7 +229,6 @@
             
             const linkWpp = `https://wa.me/5516988532041?text=${msgWpp}`;
             
-            // Chama a conversão se o script do Google Ads estiver presente
             if (typeof gtag_report_conversion === "function") {
                 gtag_report_conversion(linkWpp);
             }
@@ -208,7 +237,6 @@
         };
     </script>
 </section>
-<!-- whatsapp -->
 
 
 <section id="chales">
@@ -514,6 +542,3 @@ Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem2.jpg
 
 </body>
 </html>
-
-
-
