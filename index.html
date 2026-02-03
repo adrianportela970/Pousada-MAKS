@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pousada MAKS</title>
+    
     <link rel="icon" href="index/imgns/logo.png" type="image/png">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJ75CGY3PG"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -15,9 +18,12 @@
         gtag('js', new Date());
         gtag('config', 'G-RJ75CGY3PG');
 
+        // Função de Conversão Google Ads
         function gtag_report_conversion(url) {
             var callback = function () {
-                if (typeof (url) != 'undefined') { window.location = url; }
+                if (typeof (url) != 'undefined') { 
+                    window.open(url, '_blank'); // Abre o WhatsApp em nova aba
+                }
             };
             gtag('event', 'conversion', {
                 'send_to': 'AW-17076601497/0FMvCOCl748bEJmF4c4_',
@@ -28,10 +34,15 @@
             return false;
         }
     </script>
+
     <style>
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Lato', sans-serif; background-color: #fff; color: #333;  }
-        
+        body { 
+            margin: 0; 
+            font-family: 'Lato', sans-serif; 
+            background-color: #fff; 
+            color: #333; 
+        }
     </style>
 </head>
 <body>
@@ -146,7 +157,7 @@
     <div class="hero-section">
         <div class="booking-card">
             <h1>🌿 Pousada MAKS!</h1>
-            <p style="color:#666; font-size: 0.85rem;">Anhanguera - Ribeirão Preto</p>
+            <p style="color:#666; font-size: 0.85rem;">Consulte disponibilidade em Ribeirão Preto.</p>
             
             <form id="reservaForm">
                 <label for="datas">Período:</label>
@@ -156,6 +167,18 @@
                 <select id="hospedes" required>
                     <option value="" disabled selected>Selecione</option>
                     <script>for(let i=1;i<=15;i++) document.write(`<option value="${i}">${i} pessoa(s)</option>`);</script>
+                </select>
+
+                <label for="ocasiao">Ocasião da Estadia:</label>
+                <select id="ocasiao" required>
+                    <option value="" disabled selected>Selecione o motivo</option>
+                    <option value="Romântica / Casal">Saída Romântica</option>
+                    <option value="Família">Viagem em Família</option>
+                    <option value="Amigos">Viagem com Amigos</option>
+                    <option value="Trabalho">A Trabalho</option>
+                    <option value="Apenas Descanso">Apenas Descanso</option>
+                    <option value="Evento / Aniversário">Evento ou Aniversário</option>
+                    <option value="Outros">Outros</option>
                 </select>
                 
                 <button type="submit" class="btn-main">CONSULTAR PELO WHATSAPP</button>
@@ -174,7 +197,6 @@
         let datasSelecionadas = [];
         const scriptURL = 'SUA_URL_DO_GOOGLE_SCRIPTS_AQUI';
 
-        // Slider
         let cur = 0; 
         const sld = document.getElementById('slider');
         const imgs = sld.querySelectorAll('img');
@@ -183,7 +205,6 @@
             sld.style.transform = `translateX(-${cur * 100}%)`; 
         }, 4000);
 
-        // Calendário
         flatpickr("#datas", { 
             mode: "range", 
             locale: "pt", 
@@ -192,11 +213,12 @@
             onChange: (s) => { datasSelecionadas = s; } 
         });
 
-        // ENVIO AUTOMÁTICO PARA PLANILHA (Ao selecionar hóspedes)
-        document.getElementById('hospedes').addEventListener('change', function() {
+        function salvarPreReserva() {
             if (datasSelecionadas.length < 2) return;
+            const h = document.getElementById('hospedes').value;
+            const o = document.getElementById('ocasiao').value;
+            if (!h || !o) return;
 
-            const h = this.value;
             const sIn = datasSelecionadas[0].toLocaleDateString('pt-BR');
             const sOut = datasSelecionadas[1].toLocaleDateString('pt-BR');
 
@@ -204,27 +226,35 @@
             body.append('checkin', sIn);
             body.append('checkout', sOut);
             body.append('hospedes', h);
+            body.append('ocasiao', o);
             body.append('status', 'Interesse (Pré-WhatsApp)');
 
             fetch(scriptURL, { method: 'POST', body: body, keepalive: true })
-                .then(() => console.log("Dados salvos automaticamente."))
                 .catch(err => console.error("Erro no salvamento automático:", err));
-        });
+        }
 
-        // BOTÃO WHATSAPP
+        document.getElementById('hospedes').addEventListener('change', salvarPreReserva);
+        document.getElementById('ocasiao').addEventListener('change', salvarPreReserva);
+
         document.getElementById('reservaForm').onsubmit = function(e) {
             e.preventDefault();
             if (datasSelecionadas.length < 2) return alert("Selecione entrada e saída.");
 
             const h = document.getElementById('hospedes').value;
+            const o = document.getElementById('ocasiao').value;
             const sIn = datasSelecionadas[0].toLocaleDateString('pt-BR');
             const sOut = datasSelecionadas[1].toLocaleDateString('pt-BR');
             
+            let perguntaExtra = "";
+            if (o.includes("Romântica")) {
+                perguntaExtra = "\n\n❤️ *Gostaria de saber se vocês fazem personalização romântica no quarto?*";
+            }
+            
             const msgWpp = encodeURIComponent(
-                `Olá! Tem disponibilidade nessa data?\n\n` +
-                `Check-in: ${sIn}\n` +
-                `Check-out: ${sOut}.\n\n` +
-                `Hóspedes: ${h} pessoa(s).`
+                `Olá! Gostaria de consultar disponibilidade:\n\n` +
+                `📅 *Período:* ${sIn} a ${sOut}\n` +
+                `👥 *Hóspedes:* ${h} pessoa(s)\n` +
+                `✨ *Ocasião:* ${o}${perguntaExtra}`
             );
             
             const linkWpp = `https://wa.me/5516988532041?text=${msgWpp}`;
@@ -238,6 +268,286 @@
     </script>
 </section>
 
+<section id="chales-area">
+    <style>
+        /* --- ESTILOS GERAIS --- */
+        #chales-area {
+            padding: 50px 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+            user-select: none; /* Evita selecionar texto ao arrastar */
+        }
+
+        .divnocha { margin-bottom: 25px; }
+
+        .nocha {
+            font-size: 2rem;
+            color: #1b5e20;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- CONTAINER DO SLIDE --- */
+        .banner-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            position: relative; /* Importante para posicionar as setas */
+            background: #fff;
+            aspect-ratio: 16/9;
+        }
+
+        .banner-slide {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            /* A transição será controlada via JS para o efeito de arrastar */
+            cursor: grab;
+        }
+
+        .banner-slide:active { cursor: grabbing; }
+
+        .img_index {
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            object-fit: cover;
+            pointer-events: none; /* Essencial para o arraste funcionar bem */
+        }
+
+        /* --- SETAS DE NAVEGAÇÃO --- */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+            color: #1b5e20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            opacity: 0; /* Invisível por padrão, aparece no hover do container */
+        }
+
+        .banner-container:hover .nav-arrow { opacity: 1; } /* Aparece ao passar o mouse */
+        
+        /* No mobile, deixa as setas sempre visíveis ou remove o hover */
+        @media (max-width: 768px) {
+            .nav-arrow { opacity: 1; width: 35px; height: 35px; } 
+        }
+
+        .nav-arrow:hover { background-color: #25d366; color: white; }
+        .prev-arrow { left: 15px; }
+        .next-arrow { right: 15px; }
+
+        /* --- BOLINHAS (DOTS) --- */
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #25d366;
+            transform: scale(1.3);
+        }
+
+        @media (max-width: 768px) {
+            .nocha { font-size: 1.5rem; }
+            .banner-container { aspect-ratio: 4/3; }
+        }
+    </style>
+
+    <div class="divnocha">
+        <h2 class="nocha">Nosso Ambiente:</h2>
+    </div>
+
+    <div class="banner-container" id="banner-container">
+        <button class="nav-arrow prev-arrow" id="btn-prev">&#10094;</button>
+        <button class="nav-arrow next-arrow" id="btn-next">&#10095;</button>
+
+        <div class="banner-slide" id="slide-chales">
+            <img class="img_index" src="imgns/ambiente/horizontal/IMG_1.jpg" alt="Pousada Foto 1">
+            <img class="img_index" src="imgns/ambiente/horizontal/IMG_2.jpg" alt="Pousada Foto 2">
+            <img class="img_index" src="imgns/ambiente/horizontal/IMG_3.jpg" alt="Pousada Foto 3">
+            <img class="img_index" src="imgns/ambiente/horizontal/IMG_4.jpg" alt="Pousada Foto 4">
+            <img class="img_index" src="imgns/ambiente/horizontal/IMG_5.jpg" alt="Pousada Foto 5">
+            <img class="img_index" src="imgns/ambiente/horizontal/IMG_6.jpg" alt="Pousada Foto 6">
+            <img class="img_index" src="imgns/ambiente/horizontal/IMG_7.jpg" alt="Pousada Foto 7">
+            <img class="img_index" src="imgns/ambiente/horizontal/IMG_8.jpg" alt="Pousada Foto 8">
+        </div>
+    </div>
+    
+    <div class="dots-container" id="dots-chales"></div>
+
+    <script>
+        (function() {
+            const slide = document.getElementById('slide-chales');
+            const images = slide.querySelectorAll('img');
+            const dotsContainer = document.getElementById('dots-chales');
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            
+            let index = 0;
+            let startX = 0;
+            let currentTranslate = 0;
+            let prevTranslate = 0;
+            let isDragging = false;
+            let autoSlideInterval;
+            let autoSlideDelay = 3000;
+
+            // 1. Setup Inicial: Dots e Eventos
+            images.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    index = i;
+                    updateSlidePosition();
+                    pauseAndDelayAutoSlide();
+                });
+                dotsContainer.appendChild(dot);
+            });
+            const dots = dotsContainer.querySelectorAll('.dot');
+
+            // 2. Função Principal de Movimento
+            function updateSlidePosition() {
+                // Apenas movemos usando a porcentagem do index atual
+                slide.style.transition = 'transform 0.5s ease-out';
+                slide.style.transform = `translateX(-${index * 100}%)`;
+                
+                // Atualiza dots
+                dots.forEach(dot => dot.classList.remove('active'));
+                if(dots[index]) dots[index].classList.add('active');
+            }
+
+            // 3. Funções das Setas
+            function moveNext() {
+                if (index < images.length - 1) {
+                    index++;
+                } else {
+                    index = 0; // Volta pro início (Loop)
+                }
+                updateSlidePosition();
+                pauseAndDelayAutoSlide();
+            }
+
+            function movePrev() {
+                if (index > 0) {
+                    index--;
+                } else {
+                    index = images.length - 1; // Vai pro final (Loop)
+                }
+                updateSlidePosition();
+                pauseAndDelayAutoSlide();
+            }
+
+            btnNext.addEventListener('click', moveNext);
+            btnPrev.addEventListener('click', movePrev);
+
+            // 4. Slide Automático
+            function startAutoSlide() {
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = setInterval(moveNext, autoSlideDelay);
+            }
+
+            function pauseAndDelayAutoSlide() {
+                clearInterval(autoSlideInterval);
+                setTimeout(() => {
+                    startAutoSlide();
+                }, 5000);
+            }
+
+            // 5. Lógica de "Arrastar com o Dedo" (Touch & Mouse)
+            
+            // Início do toque
+            function touchStart(e) {
+                isDragging = true;
+                startX = getPositionX(e);
+                slide.style.transition = 'none'; // Remove animação para seguir o dedo instantaneamente
+                pauseAndDelayAutoSlide();
+            }
+
+            // Movimento do toque
+            function touchMove(e) {
+                if (!isDragging) return;
+                const currentX = getPositionX(e);
+                const diff = currentX - startX;
+                
+                // Calcula a posição atual em pixels e converte visualmente
+                // A lógica aqui é: Posição Base (-index * 100%) + Diferença em Pixels
+                slide.style.transform = `translateX(calc(-${index * 100}% + ${diff}px))`;
+            }
+
+            // Fim do toque
+            function touchEnd(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                const currentX = getPositionX(e); // Note: touchend pode precisar de changedTouches, tratado abaixo
+                // Para touchend, o currentX não existe em 'e', precisamos usar o último diff ou changedTouches.
+                // Simplificando: vamos pegar a posição final baseada no swipe.
+                
+                // Como não temos o "currentX" fácil no touchend padrão sem rastrear, 
+                // vamos usar a variável 'lastMoveX' se quiséssemos precisão, 
+                // mas aqui faremos via diff do evento se disponível ou apenas lógica de swipe.
+                
+                // Melhor abordagem simples para 'touchend':
+                const endX = e.changedTouches ? e.changedTouches[0].pageX : e.pageX;
+                const diff = endX - startX;
+
+                // Definir sensibilidade do swipe (50px)
+                if (diff < -50) {
+                    if (index < images.length - 1) index++;
+                } else if (diff > 50) {
+                    if (index > 0) index--;
+                }
+
+                updateSlidePosition(); // Isso vai "imantar" a imagem correta no lugar
+            }
+
+            // Auxiliar para pegar X (Mouse ou Touch)
+            function getPositionX(event) {
+                return event.type.includes('mouse') ? event.pageX : event.touches[0].pageX;
+            }
+
+            // Listeners de Eventos
+            slide.addEventListener('mousedown', touchStart);
+            slide.addEventListener('touchstart', touchStart, {passive: true});
+
+            slide.addEventListener('mousemove', touchMove);
+            slide.addEventListener('touchmove', touchMove, {passive: true});
+
+            slide.addEventListener('mouseup', touchEnd);
+            slide.addEventListener('mouseleave', () => { if(isDragging) touchEnd({pageX: startX}); }); // Cancela se sair da área
+            slide.addEventListener('touchend', touchEnd);
+
+            // Inicia
+            startAutoSlide();
+        })();
+    </script>
+</section>
 
 <section id="chales">
     <style>
@@ -263,34 +573,19 @@
         .modal-slider img { width: 100%; height: 100%; object-fit: cover; display: none; }
         .modal-slider img.active { display: block; }
         .nav-modal { position: absolute; top: 150px; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); padding: 0 10px; pointer-events: none; z-index: 5; }
-        .nav-modal span { pointer-events: auto; background: rgba(0,0,0,0.5); color: #fff; padding: 10px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        .nav-modal span { pointer-events: auto; background: rgba(0,0,0,0.5); color: #fff; padding: 10px; cursor: pointer; border-radius: 5px; font-weight: bold; user-select: none; }
 
         .modal-text { padding: 25px; clear: both; }
         .modal-text h2 { color: #1b5e20; margin-top: 0; font-weight: 800; }
-        .modal-text p { color: #555; line-height: 1.6; white-space: pre-line; margin-bottom: 20px; }
+        .modal-text div { color: #555; line-height: 1.6; margin-bottom: 20px; }
+        .info-box { background: #f1f8e9; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #2e7d32; }
     </style>
 
     <h2 class="section-title">Explore nossos Chalés</h2>
     
     <div class="chales-grid">
-        <div class="card" onclick="openModal('🌸 Chalé Primavera', `🌿 Conforto versátil em meio à natureza!
-A cozinha é completa, equipada com panelas, pratos, copos, talheres, fogão elétrico, geladeira, pia e tanque, oferecendo toda a praticidade para sua estadia. 🍽️❄️🔥
-
-As acomodações incluem cama King de casal ou King Flex (que pode ser convertida em duas de solteiro), além de sofá-bicama, roupas de cama e toalhas. 🛏️🧺
-O espaço dispõe de ar-condicionado, chuveiro quente, TV e Wi-Fi, garantindo conforto e comodidade. 🌬️💦📺📶
-
-A área externa oferece vista para o campo, churrasqueira móvel e estacionamento com câmera de monitoramento silenciosa para maior segurança. 🌾🔥🚗🔒
-
-🌟 Áreas comuns para todos os hóspedes:
-🏊‍♂️ Piscina com hidromassagem e luz de LED
-🌿 Cama de jardim para relaxar ao ar livre
-👀 Mirante no pé de jaca com vista especial
-💞 Balanço namoradeira à beira da piscina
-🚿 Banheiros para banho na área da piscina
-🚻 Dois banheiros para necessidades fisiológicas
-Refeição: Café da Manhã
-Camas: Casal - 2 Pessoa(s), Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem1.jpg'])">
-            <img src="pacotes/imgns/imagem1.jpg">
+        <div class="card" onclick="openModal('🌸 Chalé Primavera', '<strong>Capacidade:</strong> 4 a 5 pessoas<br><strong>Camas:</strong> Cama King ou King Flex + Sofá-bicama<br><strong>Disponível para:</strong> Temporadas, diárias ou pernoite.<br><br>🌿 Conforto versátil em meio à natureza! A cozinha é completa com fogão elétrico, geladeira e utensílios. O espaço dispõe de ar-condicionado, chuveiro quente, TV e Wi-Fi.<br><br><strong>Área externa:</strong> Churrasqueira móvel e estacionamento monitorado.<br><div class=\'info-box\'><strong>Áreas comuns:</strong> Piscina com hidro e LED, mirante no pé de jaca, balanço namoradeira e café da manhã incluso.</div>', ['imgns/primavera/horizontal/IMG_2.jpg'])">
+            <img src="imgns/primavera/horizontal/IMG_2.jpg">
             <div class="card-content">
                 <span class="badge">FAMÍLIAS</span>
                 <h3>🌸 Chalé Primavera</h3>
@@ -299,24 +594,8 @@ Camas: Casal - 2 Pessoa(s), Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem1.jpg'])
             </div>
         </div>
 
-        <div class="card" onclick="openModal('🤠 Chalé Country', `🌿 Tranquilidade com um toque rústico e acolhedor!
-Acomoda com conforto, oferecendo uma cama King Flex (que pode ser convertida em duas de solteiro), além de roupas de cama e toalhas incluídas. 🛏️🧺
-
-A cozinha equipada conta com utensílios básicos — panelas, pratos, copos e talheres — além de fogão elétrico, geladeira, pia e tanque. 🍽️🧼
-
-O espaço dispõe de ar-condicionado, chuveiro quente, TV, Wi-Fi e uma charmosa varanda com rede de descanso. 📺💦📶🌤️
-
-Na área externa, você encontra uma linda vista para o campo, piscina, churrasqueira móvel, jardim e estacionamento com câmera silenciosa. 🌾🏊‍♂️🔥🌼🚗
-🌟 Áreas comuns para todos os hóspedes:
-🏊‍♂️ Piscina com hidromassagem e luz de LED
-🌿 Cama de jardim para relaxar ao ar livre
-👀 Mirante no pé de jaca com vista especial
-💞 Balanço namoradeira à beira da piscina
-🚿 Banheiros para banho na área da piscina
-🚻 Dois banheiros para necessidades fisiológicas
-Refeição: Café da Manhã
-Camas: Casal - 2 Pessoa(s), Casal - 2 Pessoa(s), Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem7.jpg'])">
-            <img src="pacotes/imgns/imagem7.jpg">
+        <div class="card" onclick="openModal('🤠 Chalé Country', '<strong>Capacidade:</strong> 6 hóspedes<br><strong>Camas:</strong> 2 bicamas e 2 camas de solteiro<br><strong>Disponível para:</strong> Temporadas, diárias ou pernoite.<br><br>🌿 Tranquilidade com um toque rústico! Cozinha equipada com utensílios básicos, fogão elétrico e geladeira. Dispõe de ar-condicionado, chuveiro quente, TV, Wi-Fi e varanda com rede.<br><br><strong>Área externa:</strong> Vista para o campo e churrasqueira móvel.<br><div class=\'info-box\'><strong>Áreas comuns:</strong> Piscina com hidro, mirante, balanço e café da manhã incluso.</div>', ['imgns/country/horizontal/IMG_1.jpg'])">
+            <img src="imgns/country/horizontal/IMG_1.jpg">
             <div class="card-content">
                 <span class="badge">RÚSTICO</span>
                 <h3>🤠 Chalé Country</h3>
@@ -325,25 +604,8 @@ Camas: Casal - 2 Pessoa(s), Casal - 2 Pessoa(s), Casal - 2 Pessoa(s)`, ['pacotes
             </div>
         </div>
 
-        <div class="card" onclick="openModal('🦩 Chalé Flamingo', `✨ Espaço, conforto e estilo!
-O ambiente conta com utensílios básicos (copos, talheres e pratos), geladeira e fogão elétrico para maior praticidade. 🍽️❄️🔥
-
-Acomoda com cama King Flex (que pode ser convertida em duas de solteiro), além de roupas de cama e toalhas incluídas. 🛏️🧺
-Dispõe de ar-condicionado, chuveiro quente, Wi-Fi, varanda ampla e uma aconchegante rede de descanso. 🌬️💦📶🌤️
-
-Na área externa, você encontra vista para o campo, estacionamento amplo com câmera, churrasqueira móvel e jardim para momentos especiais. 🌾🚗🔥🌼
-
-🌟 Áreas comuns para todos os hóspedes:
-🏊‍♂️ Piscina com hidromassagem e luz de LED
-🌿 Cama de jardim para relaxar ao ar livre
-👀 Mirante no pé de jaca com vista especial
-💞 Balanço namoradeira à beira da piscina
-🚿 Banheiros para banho na área da piscina
-🚻 Dois banheiros para necessidades fisiológicas
-Refeição: Café da Manhã
-
-Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem4.jpg'])">
-            <img src="pacotes/imgns/imagem4.jpg">
+        <div class="card" onclick="openModal('🦩 Chalé Flamingo', '<strong>Capacidade:</strong> 2 pessoas<br><strong>Camas:</strong> Cama King Flex (casal ou 2 solteiro)<br><strong>Disponível para:</strong> Temporadas, diárias ou pernoite.<br><br>✨ Espaço, conforto e estilo! Conta com geladeira, fogão elétrico e utensílios básicos. Dispõe de ar-condicionado, chuveiro quente, Wi-Fi e varanda ampla com rede.<br><br><strong>Área externa:</strong> Churrasqueira móvel e jardim privativo.<br><div class=\'info-box\'><strong>Áreas comuns:</strong> Piscina com hidro, mirante, balanço e café da manhã incluso.</div>', ['imgns/flamingo/horizontal/IMG_1.jpg'])">
+            <img src="imgns/flamingo/horizontal/IMG_1.jpg">
             <div class="card-content">
                 <span class="badge">ESTILO</span>
                 <h3>🦩 Chalé Flamingo</h3>
@@ -352,21 +614,8 @@ Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem4.jpg'])">
             </div>
         </div>
 
-        <div class="card" onclick="openModal('🌳 Casa da Árvore', `Simples, rústico e cheio de charme! ✨
-O espaço conta com pratos, talheres e copos à disposição (caso necessário), geladeira e cama de casal equipada com roupas de cama e toalhas. 🛏️🧴
-Dispõe ainda de ventilador, chuveiro quente e Wi-Fi para maior conforto. 📶
-
-A área externa oferece uma vista incrível para a piscina, além de estacionamento com câmera de segurança e churrasqueira móvel para aproveitar momentos especiais. 🚗🔒🔥
-🌟 Áreas comuns para todos os hóspedes:
-🏊‍♂️ Piscina com hidromassagem e luz de LED
-🌿 Cama de jardim para relaxar ao ar livre
-👀 Mirante no pé de jaca com vista especial
-💞 Balanço namoradeira à beira da piscina
-🚿 Banheiros para banho na área da piscina
-🚻 Dois banheiros para necessidades fisiológicas
-Refeição: Café da Manhã
-Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem6.jpg'])">
-            <img src="pacotes/imgns/imagem6.jpg">
+        <div class="card" onclick="openModal('🌳 Casa da Árvore', '<strong>Capacidade:</strong> 2 pessoas<br><strong>Camas:</strong> Cama de casal<br><strong>Disponível para:</strong> Temporadas, diárias ou pernoite.<br><br>✨ Simples e rústico! Equipado com <strong>frigobar</strong>, ventilador, chuveiro quente e Wi-Fi. Roupa de cama e banho inclusas.<br><br><strong>Área externa:</strong> Vista privilegiada para a piscina e churrasqueira móvel.<br><div class=\'info-box\'><strong>Áreas comuns:</strong> Piscina com hidro, mirante, balanço e café da manhã incluso.</div>', ['imgns/canário/horizontal/IMG_1.jpg'])">
+            <img src="imgns/canário/horizontal/IMG_1.jpg">
             <div class="card-content">
                 <span class="badge">AVENTURA</span>
                 <h3>🌳 Casa da Árvore</h3>
@@ -375,24 +624,8 @@ Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem6.jpg'])">
             </div>
         </div>
 
-        <div class="card" onclick="openModal('🌻 Chalé Girassol', `☀️ Simples, funcional e com um toque solar!
-O espaço é equipado com pratos, copos, talheres, fogão elétrico de 2 bocas e geladeira, garantindo praticidade no dia a dia. 🍽️❄️🔥
-
-As acomodações incluem cama de casal com roupas de cama, toalhas e itens básicos de higiene. 🛏️🧺🧴
-Conta ainda com ar-condicionado, chuveiro quente, Wi-Fi, varanda e uma linda vista para a piscina. 🌬️💦📶🏊‍♂️
-
-Na área externa, você encontra estacionamento e churrasqueira móvel para momentos ao ar livre. 🚗🔥🌿
-
-🌟 Áreas comuns para todos os hóspedes:
-🏊‍♂️ Piscina com hidromassagem e luz de LED
-🌿 Cama de jardim para relaxar ao ar livre
-👀 Mirante no pé de jaca com vista especial
-💞 Balanço namoradeira à beira da piscina
-🚿 Banheiros para banho na área da piscina
-🚻 Dois banheiros para necessidades fisiológicas
-Refeição: Café da Manhã
-Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem5.jpg'])">
-            <img src="pacotes/imgns/imagem5.jpg">
+        <div class="card" onclick="openModal('🌻 Chalé Girassol', '<strong>Capacidade:</strong> 2 pessoas<br><strong>Camas:</strong> Cama de casal<br><strong>Disponível para:</strong> Temporadas, diárias ou pernoite.<br><br>☀️ Funcional e iluminado! Equipado com geladeira, fogão elétrico 2 bocas e utensílios. Conta com ar-condicionado, chuveiro quente, Wi-Fi e varanda.<br><br><strong>Área externa:</strong> Churrasqueira móvel e vista para a piscina.<br><div class=\'info-box\'><strong>Áreas comuns:</strong> Piscina com hidro, mirante, balanço e café da manhã incluso.</div>', ['imgns/girassol/horizontal/IMG_1.jpg'])">
+            <img src="imgns/girassol/horizontal/IMG_1.jpg">
             <div class="card-content">
                 <span class="badge">PRATICIDADE</span>
                 <h3>🌻 Chalé Girassol</h3>
@@ -401,27 +634,8 @@ Camas: Casal - 2 Pessoa(s)`, ['pacotes/imgns/imagem5.jpg'])">
             </div>
         </div>
 
-        <div class="card" onclick="openModal('🐾 Chalé Onça', `🌾 Seu refúgio no campo!
-A cozinha é totalmente equipada com fogão, geladeira, forno e utensílios básicos, garantindo praticidade para suas refeições. 🍽️🔥❄️
-
-O espaço acomoda com conforto em 3 camas de solteiro, incluindo roupas de cama e toalhas. 🛏️🧺
-Conta ainda com ar-condicionado, chuveiro quente, TV e Wi-Fi, trazendo a combinação ideal entre natureza e comodidade. 🌬️💦📺📶
-
-A área externa oferece varanda aconchegante, rede de descanso, vista para o campo, piscina, estacionamento, churrasqueira móvel e jardim — perfeito para relaxar e aproveitar o ar livre. 🌤️🌿🔥🚗🌼
-📹 Segurança garantida com câmera de monitoramento.
-
-✨ Ideal para quem busca conforto, natureza e tranquilidade.
-
-🌟 Áreas comuns para todos os hóspedes:
-🏊‍♂️ Piscina com hidromassagem e luz de LED
-🌿 Cama de jardim para relaxar ao ar livre
-👀 Mirante no pé de jaca com vista especial
-💞 Balanço namoradeira à beira da piscina
-🚿 Banheiros para banho na área da piscina
-🚻 Dois banheiros para necessidades fisiológicas
-Refeição: Café da Manhã
-Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem3.jpg'])">
-            <img src="pacotes/imgns/imagem3.jpg">
+        <div class="card" onclick="openModal('🐾 Chalé Onça', '<strong>Capacidade:</strong> 3 pessoas<br><strong>Camas:</strong> 1 Casal + 1 Solteiro<br><strong>Disponível para:</strong> Temporadas, diárias ou pernoite.<br><br>🌾 Seu refúgio no campo! Cozinha equipada com fogão, forno e geladeira. Possui ar-condicionado, chuveiro quente, TV e Wi-Fi.<br><br><strong>Área externa:</strong> Varanda com rede, churrasqueira móvel e monitoramento por câmera.<br><div class=\'info-box\'><strong>Áreas comuns:</strong> Piscina com hidro, mirante, balanço e café da manhã incluso.</div>', ['imgns/onça/horizontal/IMG_1.jpg'])">
+            <img src="imgns/onça/horizontal/IMG_1.jpg">
             <div class="card-content">
                 <span class="badge">VISTA CAMPO</span>
                 <h3>🐾 Chalé Onça</h3>
@@ -430,24 +644,8 @@ Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem3.jpg
             </div>
         </div>
 
-        <div class="card" onclick="openModal('🍃 Chalé Jatobá', `🍃 Simples, fresco e funcional!
-O espaço conta com pratos, copos, talheres e geladeira, garantindo praticidade no dia a dia. 🍽️❄️
-
-As acomodações incluem cama de solteiro, bicama, roupas de cama e toalhas já disponíveis para seu conforto. 🛏️🧺
-Dispõe de ar-condicionado, chuveiro quente, Wi-Fi, varanda e uma acolhedora rede de descanso. 🌬️💦📶🌤️
-
-A área externa oferece vista para o jardim, piscina e estacionamento com câmera de segurança silenciosa. 🌿🏊‍♂️🚗🔒
-
-🌟 Áreas comuns para todos os hóspedes:
-🏊‍♂️ Piscina com hidromassagem e luz de LED
-🌿 Cama de jardim para relaxar ao ar livre
-👀 Mirante no pé de jaca com vista especial
-💞 Balanço namoradeira à beira da piscina
-🚿 Banheiros para banho na área da piscina
-🚻 Dois banheiros para necessidades fisiológicas
-Refeição: Café da Manhã
-Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem2.jpg'])">
-            <img src="pacotes/imgns/imagem2.jpg">
+        <div class="card" onclick="openModal('🍃 Chalé Jatobá', '<strong>Capacidade:</strong> 3 pessoas<br><strong>Camas:</strong> 1 solteiro + 1 bicama<br><strong>Disponível para:</strong> Temporadas, diárias ou pernoite.<br><br>🍃 Simples e fresco! Possui geladeira e utensílios básicos. Dispõe de ar-condicionado, chuveiro quente, Wi-Fi e varanda aconchegante com rede.<br><br><strong>Área externa:</strong> Vista para o jardim e churrasqueira móvel.<br><div class=\'info-box\'><strong>Áreas comuns:</strong> Piscina com hidro, mirante, balanço e café da manhã incluso.</div>', ['imgns/jatoba/horizontal/IMG_1.jpg'])">
+            <img src="imgns/jatoba/horizontal/IMG_1.jpg">
             <div class="card-content">
                 <span class="badge">RELAX</span>
                 <h3>🍃 Chalé Jatobá</h3>
@@ -467,7 +665,7 @@ Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem2.jpg
             </div>
             <div class="modal-text">
                 <h2 id="modalTitle"></h2>
-                <p id="modalDesc"></p>
+                <div id="modalDesc"></div>
             </div>
         </div>
     </div>
@@ -478,7 +676,8 @@ Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem2.jpg
 
         function openModal(title, desc, images) {
             document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalDesc').innerText = desc;
+            // Alterado para innerHTML para processar as tags <br> e <strong>
+            document.getElementById('modalDesc').innerHTML = desc;
             activeImages = images;
             currentImgIndex = 0;
             const slider = document.getElementById('modalSlider');
@@ -542,4 +741,3 @@ Camas: Casal - 2 Pessoa(s), Solteiro - 1 Pessoa(s)`, ['pacotes/imgns/imagem2.jpg
 
 </body>
 </html>
-
