@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio - Pousada Maks</title>
+    <style>
+        :root {
+            --cor-principal: #8fc93a;
+            --cor-fundo: #f4f4f9;
+            --cor-texto: #333;
+        }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: var(--cor-fundo); 
+            margin: 0; 
+            padding: 15px; 
+            color: var(--cor-texto);
+        }
+        .container { 
+            max-width: 500px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 { margin: 0; font-size: 24px; }
+        .header p { color: #666; margin-top: 5px; }
+        
+        h2 { 
+            font-size: 18px;
+            color: #555; 
+            border-bottom: 2px solid var(--cor-principal); 
+            padding-bottom: 5px; 
+            margin-top: 25px;
+        }
+        .item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 12px 0; 
+            border-bottom: 1px solid #eee; 
+        }
+        .item-info { flex-grow: 1; }
+        .item-name { font-weight: bold; display: block; }
+        .item-price { color: #888; font-size: 0.9em; }
+        
+        .quantity-controls { 
+            display: flex; 
+            align-items: center; 
+            background: #f9f9f9;
+            border-radius: 20px;
+            padding: 2px;
+        }
+        .quantity-controls button { 
+            background-color: var(--cor-principal); 
+            color: white; 
+            border: none; 
+            width: 28px; 
+            height: 28px; 
+            border-radius: 50%; 
+            font-size: 16px; 
+            font-weight: bold;
+            cursor: pointer; 
+        }
+        .quantity-controls span { 
+            width: 30px; 
+            text-align: center; 
+            font-weight: bold; 
+        }
+        
+        .total-container { 
+            text-align: right; 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            margin-top: 20px; 
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+        }
+        .btn-pedir { 
+            width: 100%; 
+            padding: 15px; 
+            background-color: #25D366; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 20px; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Pousada Maks</h1>
+        <p>Tabela de Preços</p>
+    </div>
+
+    <div id="cardapio"></div>
+
+    <div class="total-container">
+        Total: R$ <span id="valor-total">0,00</span>
+    </div>
+
+    <button class="btn-pedir" onclick="enviarPedido()">
+        Pedir pelo WhatsApp
+    </button>
+</div>
+
+<script>
+    const produtos = [
+        { id: 'agua', nome: 'Agua 510ml', preco: 4.00, categoria: 'Bebidas' },
+        { id: 'agua_gas', nome: 'Agua c/ gas 510ml', preco: 6.00, categoria: 'Bebidas' },
+        { id: 'agua_15', nome: 'Agua Levissima 1,5L', preco: 8.00, categoria: 'Bebidas' },
+        { id: 'coca_lata', nome: 'Coca-Cola lata 350ml', preco: 9.00, categoria: 'Bebidas' },
+        { id: 'coca_zero', nome: 'Coca-Cola Zero lata 350ml', preco: 9.00, categoria: 'Bebidas' },
+        { id: 'coca_600', nome: 'Coca-Cola PET 600ml', preco: 12.00, categoria: 'Bebidas' },
+        { id: 'suco_uva', nome: 'Suco de uva gaseificado 275ml', preco: 13.00, categoria: 'Bebidas' },
+        { id: 'coca_2l', nome: 'Coca-Cola retornavel 2L', preco: 15.00, categoria: 'Bebidas' },
+        { id: 'amendoim', nome: 'Amendoim japones', preco: 5.00, categoria: 'Petiscos' },
+        { id: 'amendoim_salsa', nome: 'Amendoim japones de salsa', preco: 5.00, categoria: 'Petiscos' }
+    ];
+
+    let carrinho = {};
+    produtos.forEach(p => carrinho[p.id] = 0);
+
+    function renderizarCardapio() {
+        const divCardapio = document.getElementById('cardapio');
+        const categorias = [...new Set(produtos.map(p => p.categoria))];
+        let html = '';
+
+        categorias.forEach(categoria => {
+            html += `<h2>${categoria}</h2>`;
+            produtos.filter(p => p.categoria === categoria).forEach(item => {
+                html += `
+                    <div class="item">
+                        <div class="item-info">
+                            <span class="item-name">${item.nome}</span>
+                            <span class="item-price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button onclick="alterarQuantidade('${item.id}', -1)">-</button>
+                            <span id="qtd-${item.id}">0</span>
+                            <button onclick="alterarQuantidade('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+        divCardapio.innerHTML = html;
+    }
+
+    function alterarQuantidade(id, valor) {
+        if (carrinho[id] + valor >= 0) {
+            carrinho[id] += valor;
+            document.getElementById(`qtd-${id}`).innerText = carrinho[id];
+            atualizarTotal();
+        }
+    }
+
+    function atualizarTotal() {
+        let total = 0;
+        produtos.forEach(item => total += item.preco * carrinho[item.id]);
+        document.getElementById('valor-total').innerText = total.toFixed(2).replace('.', ',');
+    }
+
+    function enviarPedido() {
+        const numeroWhatsApp = '5516988532041';
+        let temItens = false;
+        let total = 0;
+        let mensagem = 'Ola, Pousada Maks! Gostaria de fazer o seguinte pedido:%0A%0A';
+
+        produtos.forEach(item => {
+            if (carrinho[item.id] > 0) {
+                temItens = true;
+                let subtotal = item.preco * carrinho[item.id];
+                total += subtotal;
+                mensagem += `- ${carrinho[item.id]}x ${item.nome} (R$ ${subtotal.toFixed(2).replace('.', ',')})%0A`;
+            }
+        });
+
+        if (!temItens) {
+            alert('Por favor, selecione pelo menos um item.');
+            return;
+        }
+
+        mensagem += `%0ATotal: R$ ${total.toFixed(2).replace('.', ',')}%0A`;
+        mensagem += `%0AChave PIX: 16994441318`;
+
+        window.open(`https://wa.me/${numeroWhatsApp}?text=${mensagem}`, '_blank');
+    }
+
+    renderizarCardapio();
+</script>
+</body>
+</html>
